@@ -56,20 +56,15 @@
             </div>
 
             <h3 class="section-title">Catatan singkat</h3>
-            <textarea class="note" placeholder="Apa yang terjadi hari ini?"></textarea>
+            <textarea class="note" id="moodNote" placeholder="Apa yang terjadi hari ini?"></textarea>
 
             <button class="btn btn-primary" id="saveBtn" style="margin-top:18px">Simpan</button>
           </section>
 
           <aside class="card recent">
             <h2>Catatan terakhir</h2>
-            <div class="recent-item">
-              <strong>Selasa · Biasa</strong>
-              <p class="muted">Tugas menumpuk, tapi bisa tidur cukup.</p>
-            </div>
-            <div class="recent-item">
-              <strong>Senin · Kurang baik</strong>
-              <p class="muted">Rapat panjang, capek sekali.</p>
+            <div id="recentList">
+              <p class="muted small">Belum ada catatan. Mood yang kamu simpan akan muncul di sini.</p>
             </div>
           </aside>
         </div>
@@ -77,14 +72,8 @@
     </main>
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/app.js"></script>
-  <script>
-    SENJA.singleSelect("#moodMoods", ".mood");
-    SENJA.multiToggle("#factors", ".chip");
-    document.getElementById("saveBtn").addEventListener("click", () => {
-      const mood = document.querySelector("#moodMoods .mood.active .label")?.textContent || "—";
-      alert(`Mood tersimpan: ${mood}`);
-    });
-  </script>
+  <script src="js/mood.js"></script>
 </body>
 </html>

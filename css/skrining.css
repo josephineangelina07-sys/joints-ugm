@@ -60,3 +60,38 @@
   font-weight: 600;
 }
 .result-side .muted { line-height: 1.6; }
+
+/* Tampilan hasil skrining */
+.result .eyebrow {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.result-score {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.result-score .score-num {
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--accent-blue);
+  line-height: 1;
+}
+.result-score .score-max {
+  font-size: 18px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.result-level {
+  margin: 4px 0 10px;
+  font-size: 22px;
+}
+.result-level.level-rendah { color: var(--calm); }
+.result-level.level-sedang { color: var(--tired); }
+.result-level.level-tinggi { color: var(--over); }
+.result .muted { line-height: 1.6; }
