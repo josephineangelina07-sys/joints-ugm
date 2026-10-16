@@ -1,8 +1,5 @@
-/* Beranda (Home) page styles */
-
 .main > .main-inner > section { margin-bottom: 20px; }
 
-/* Hero */
 .hero {
   background: var(--bg-hero);
   text-align: center;
@@ -75,16 +72,13 @@
 .status-card strong { display: block; font-size: 14px; color: var(--text-strong); }
 .status-card span { font-size: 12px; color: var(--text-muted); }
 
-/* Mood picker card */
 .mood-picker-card .moods { margin-top: 4px; }
 
-/* Promo cards */
 .promos h3 { margin: 2px 0 10px; font-size: 20px; color: var(--text-strong); }
 .promos .btn { margin-top: 16px; }
 .promo-soft { background: #e4def5; }
 .promo-soft .muted { color: #6a6388; }
 
-/* Info cards */
 .info-card { display: flex; flex-direction: column; }
 .info-ico {
   width: 40px; height: 40px;
@@ -125,8 +119,6 @@
   50% { transform: scale(1.1); opacity: 1; }
 }
 
-/* Saat latihan aktif, animasi default dimatikan dan setiap fase
-   mengatur ukuran lingkaran lewat transition (dikendalikan home.js). */
 .breath-box.active .breath-dot { animation: none; opacity: 1; }
 .breath-dot.inhale {
   transform: scale(1.8);

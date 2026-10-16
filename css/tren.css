@@ -1,5 +1,3 @@
-/* Tren (Trends) page styles */
-
 .line-card { margin-bottom: 20px; }
 
 .line-chart {
@@ -23,13 +21,9 @@
 }
 .line-svg { flex: 1; height: 100%; overflow: visible; }
 
-/* Baris label hari. Lebarnya dipaksa sama persis dengan area SVG
-   (digeser ke kanan sebesar lebar kolom emoji + gap) agar setiap label
-   bisa diposisikan tepat di bawah titik grafiknya. */
 .x-labels {
   position: relative;
   height: 18px;
-  /* 56px = lebar .y-emojis (42px) + gap .line-chart (14px) */
   margin-left: 56px;
   margin-top: 10px;
   color: var(--text-muted);
@@ -41,8 +35,6 @@
   white-space: nowrap;
 }
 
-
-/* Average bars */
 .bars {
   display: flex;
   align-items: flex-end;
@@ -66,13 +58,11 @@
 }
 .bar-labels span { flex: 1; text-align: center; }
 
-/* Insight card */
 .insight { background: var(--bg-amber); display: flex; flex-direction: column; }
 .insight h3 { margin: 2px 0 10px; font-size: 20px; color: var(--text-strong); }
 .insight .muted { color: #7a6a5a; line-height: 1.6; }
 .insight .btn { margin-top: 18px; align-self: flex-start; }
 
-/* Empty state — ditampilkan saat belum ada data mood */
 .empty-state {
   display: flex;
   flex-direction: column;

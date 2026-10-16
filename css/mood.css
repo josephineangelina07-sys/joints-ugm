@@ -1,5 +1,3 @@
-/* Mood harian (Daily mood) page styles */
-
 .section-title {
   font-size: 16px;
   color: var(--text-strong);
@@ -29,14 +27,19 @@
 }
 .note::placeholder { color: var(--text-faint); }
 
-/* Recent notes side panel */
 .recent h2 { color: var(--text-strong); }
 .recent-item { margin-bottom: 18px; }
 .recent-item strong { display: block; font-size: 15px; color: var(--text-strong); margin-bottom: 4px; }
 .recent-item p { margin: 0; line-height: 1.5; font-size: 14px; }
 
-/* Petunjuk status mood hari ini */
 .today-hint {
   margin: 4px 0 10px;
   line-height: 1.5;
+}
+
+.face-img {
+  width: 24px;         
+  height: 24px;
+  vertical-align: middle;
+  margin-right: 6px;   
 }

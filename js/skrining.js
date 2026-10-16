@@ -1,5 +1,3 @@
-// Skrining — alur 10 pertanyaan yang digerakkan oleh data.
-
 const QUESTIONS = [
   { text: "Dalam 2 minggu terakhir, seberapa sulit kamu merasa rileks?",
     options: ["Tidak sama sekali", "Beberapa hari", "Lebih dari separuh hari", "Hampir setiap hari"] },
@@ -23,7 +21,6 @@ const QUESTIONS = [
     options: ["Tidak sama sekali", "Beberapa hari", "Lebih dari separuh hari", "Hampir setiap hari"] },
 ];
 
-// Teks hasil per tingkat.
 const LEVEL_INFO = {
   Rendah: {
     title: "Tingkat: Rendah",
@@ -74,7 +71,6 @@ function render() {
 
   const isLast = current === QUESTIONS.length - 1;
   nextBtn.textContent = isLast ? "Selesai" : "Lanjut";
-  // Tombol lanjut nonaktif sampai pertanyaan dijawab.
   const answered = answers[current] !== null;
   nextBtn.disabled = !answered;
   nextBtn.style.opacity = answered ? "1" : "0.5";
@@ -84,7 +80,6 @@ function finish() {
   const score = answers.reduce((s, a) => s + (a ?? 0), 0);
   const level = score <= 10 ? "Rendah" : score <= 20 ? "Sedang" : "Tinggi";
 
-  // Simpan hasil ke penyimpanan lokal.
   if (window.SENJA_STORE) {
     window.SENJA_STORE.addScreening({ score, level, answers: [...answers] });
   }
@@ -92,7 +87,6 @@ function finish() {
   const info = LEVEL_INFO[level];
   const maxScore = QUESTIONS.length * 3; // 30
 
-  // Tampilkan hasil menggantikan kartu pertanyaan.
   questionCard.innerHTML = `
     <div class="result">
       <div class="eyebrow">Skrining selesai</div>
@@ -113,7 +107,6 @@ function finish() {
       </div>
     </div>`;
 
-  // Perbarui panel samping jadi ringkasan singkat.
   if (resultCard) {
     resultCard.innerHTML = `
       <h2>Ringkasan</h2>
@@ -134,7 +127,7 @@ backBtn.addEventListener("click", () => {
 });
 
 nextBtn.addEventListener("click", () => {
-  if (answers[current] === null) return; // belum dijawab
+  if (answers[current] === null) return;
   if (current < QUESTIONS.length - 1) {
     current++;
     render();

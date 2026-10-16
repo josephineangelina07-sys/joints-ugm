@@ -1,34 +1,24 @@
-// Tren — menggambar grafik garis mood 14 hari & batang rata-rata per hari.
-// Hanya menampilkan grafik jika pengguna SUDAH punya catatan mood.
-// Jika belum ada data, tampilkan "empty state" (ajakan mengisi mood).
-
 const DAYS_SHORT = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
 const DAY_FULL = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
 const moods = window.SENJA_STORE ? SENJA_STORE.getMoods() : [];
 const hasData = moods.length > 0;
 
-// Data 14 hari terakhir dari catatan asli.
 const last = moods.slice(-14);
 const data = last.map((m) => m.value);
 const dayLabels = last.map((m) => DAYS_SHORT[new Date(m.date).getDay()]);
 
 const W = 760, H = 300;
-// padX = 0 agar titik pertama tepat di tepi kiri dan titik terakhir
-// tepat di tepi kanan area grafik, sehingga sejajar dengan label hari.
 const padX = 0, padY = 24;
 const innerW = W - padX * 2;
 const innerH = H - padY * 2;
 
-// Posisi horizontal titik ke-i dalam bentuk PERSEN (0..100) dari lebar grafik.
-// Dipakai bersama untuk titik SVG maupun label hari agar keduanya sejajar.
 function xPct(i) {
   return data.length <= 1 ? 50 : (100 * i) / (data.length - 1);
 }
 function x(i) { return (xPct(i) / 100) * W; }
 function y(v) { return padY + innerH * (1 - (v - 1) / 4); }
 
-// Tampilkan pesan "belum ada data" di dalam sebuah kartu.
 function emptyMessage(text) {
   return `<div class="empty-state">
       <span class="empty-ico">🌙</span>
@@ -84,19 +74,16 @@ function renderXLabels() {
   const el = document.getElementById("xLabels");
     if (!el) return;
   if (!hasData) { el.innerHTML = ""; return; }
-  // Setiap label ditempatkan tepat di bawah titiknya (persen yang sama),
-  // lalu digeser -50% agar teksnya terpusat di titik itu.
   el.innerHTML = dayLabels
     .map((d, i) => `<span style="left:${xPct(i).toFixed(2)}%">${d}</span>`)
     .join("");
 }
 
-// Rata-rata mood per hari dalam seminggu (Sen..Min).
 function weekdayAverages() {
   const buckets = Array.from({ length: 7 }, () => []);
   moods.forEach((m) => {
-    const jsDay = new Date(m.date).getDay(); // 0=Min..6=Sab
-    const idx = jsDay === 0 ? 6 : jsDay - 1; // 0=Sen..6=Min
+    const jsDay = new Date(m.date).getDay();
+    const idx = jsDay === 0 ? 6 : jsDay - 1;
     buckets[idx].push(m.value);
   });
   return buckets.map((b) => (b.length ? b.reduce((s, v) => s + v, 0) / b.length : 0));
@@ -128,7 +115,6 @@ function renderBars() {
     .join("");
 }
 
-// Insight "pola ditemukan" — dihitung dari data asli.
 function renderInsight() {
   const card = document.getElementById("insightCard");
   if (!card) return;

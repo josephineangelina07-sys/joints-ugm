@@ -1,10 +1,3 @@
-// Mood harian — pilih mood & faktor, simpan ke penyimpanan lokal,
-// lalu tampilkan catatan terakhir.
-//
-// Aturan: SATU hari = SATU catatan. Jika hari ini sudah pernah diisi,
-// form menampilkan isian terakhir dan "Simpan" akan MEMPERBARUI, bukan
-// membuat catatan baru.
-
 SENJA.singleSelect("#moodMoods", ".mood");
 SENJA.multiToggle("#factors", ".chip");
 
@@ -12,12 +5,10 @@ const saveBtn = document.getElementById("saveBtn");
 const noteEl = document.getElementById("moodNote");
 const recentList = document.getElementById("recentList");
 
-// Elemen petunjuk status hari ini (dibuat otomatis di atas tombol Simpan).
 const hintEl = document.createElement("p");
 hintEl.className = "today-hint small muted";
 saveBtn.insertAdjacentElement("beforebegin", hintEl);
 
-// Format tanggal relatif sederhana (Hari ini / Kemarin / Nama hari).
 function formatWhen(iso) {
   const d = new Date(iso);
   const today = new Date();
@@ -50,21 +41,16 @@ function renderRecent() {
     .join("");
 }
 
-// Terapkan sebuah catatan ke form (dipakai saat hari ini sudah terisi).
 function applyEntryToForm(entry) {
-  // Pilih mood yang sesuai.
   document.querySelectorAll("#moodMoods .mood").forEach((btn) => {
     btn.classList.toggle("active", btn.getAttribute("data-mood") === entry.mood);
   });
-  // Aktifkan faktor yang cocok.
   document.querySelectorAll("#factors .chip").forEach((chip) => {
     chip.classList.toggle("active", entry.factors.includes(chip.textContent.trim()));
   });
-  // Isi catatan.
   noteEl.value = entry.note || "";
 }
 
-// Perbarui teks petunjuk & label tombol sesuai status hari ini.
 function refreshTodayState() {
   const today = SENJA_STORE.getTodayMood();
   if (today) {
@@ -77,7 +63,6 @@ function refreshTodayState() {
   }
 }
 
-// Cegah injeksi HTML dari catatan pengguna.
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&")
@@ -99,7 +84,6 @@ saveBtn.addEventListener("click", () => {
   renderRecent();
   refreshTodayState();
 
-  // Umpan balik singkat pada tombol.
   saveBtn.disabled = true;
   saveBtn.textContent = updated ? "Diperbarui ✓" : "Tersimpan ✓";
   setTimeout(() => {
@@ -108,7 +92,6 @@ saveBtn.addEventListener("click", () => {
   }, 1400);
 });
 
-// Saat halaman dibuka: kalau hari ini sudah terisi, tampilkan isiannya.
 const todayEntry = SENJA_STORE.getTodayMood();
 if (todayEntry) applyEntryToForm(todayEntry);
 refreshTodayState();

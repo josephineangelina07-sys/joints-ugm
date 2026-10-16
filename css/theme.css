@@ -1,30 +1,27 @@
-/* SENJA — shared theme, layout, and components */
-
 :root {
-  /* Palette */
-  --bg-app: #efecf7;          /* app background (lavender) */
-  --bg-sidebar: #faf9fd;      /* sidebar background */
-  --bg-card: #ffffff;         /* card surfaces */
-  --bg-hero: #e9e6f7;         /* hero / soft purple panels */
-  --bg-soft: #f3f1fb;         /* soft fills */
-  --bg-amber: #fdeede;        /* warm/amber side panels */
+  --bg-app: #efecf7;          
+  --bg-sidebar: #faf9fd;      
+  --bg-card: #ffffff;         
+  --bg-hero: #e9e6f7;         
+  --bg-soft: #f3f1fb;         
+  --bg-amber: #fdeede;        
 
-  --primary: #6d57c0;         /* purple brand */
+  --primary: #6d57c0;         
   --primary-dark: #5a46a8;
   --primary-700: #4a3b86;
-  --accent-blue: #2f3e9e;     /* deep heading blue */
+  --accent-blue: #2f3e9e;     
 
-  --text: #2b2740;            /* main text */
+  --text: #2b2740;            
   --text-strong: #211f33;
-  --text-muted: #8a85a0;      /* secondary text */
+  --text-muted: #8a85a0;      
   --text-faint: #a7a3bb;
 
-  --line: #e8e5f1;            /* borders */
+  --line: #e8e5f1;            
   --line-strong: #d9d4ec;
 
-  --calm: #7fb98a;            /* green "tenang" */
-  --tired: #e0a94a;           /* amber "lelah" */
-  --over: #e06d6d;            /* red "kewalahan" */
+  --calm: #7fb98a;            
+  --tired: #e0a94a;           
+  --over: #e06d6d;            
 
   --radius-sm: 10px;
   --radius: 16px;
@@ -54,7 +51,6 @@ html, body {
 
 a { color: inherit; text-decoration: none; }
 
-/* ---------- App shell ---------- */
 .app {
   display: flex;
   min-height: 100vh;
@@ -120,7 +116,6 @@ a { color: inherit; text-decoration: none; }
 }
 .main-inner { max-width: var(--content-max); margin: 0 auto; }
 
-/* ---------- Headings ---------- */
 .page-head { margin-bottom: 26px; }
 .page-head .eyebrow {
   font-size: 12px;
@@ -139,7 +134,6 @@ a { color: inherit; text-decoration: none; }
 }
 .page-head p { margin: 0; color: var(--text-muted); font-size: 15px; }
 
-/* ---------- Cards ---------- */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -148,7 +142,6 @@ a { color: inherit; text-decoration: none; }
 }
 .card h2 { margin: 0 0 16px; font-size: 19px; color: var(--text-strong); }
 
-/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -170,7 +163,6 @@ a { color: inherit; text-decoration: none; }
 .btn-muted { background: #e4def5; color: var(--primary-700); }
 .btn-muted:hover { background: #d8d0ee; }
 
-/* ---------- Chips / pills ---------- */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -202,7 +194,6 @@ a { color: inherit; text-decoration: none; }
 }
 .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
 
-/* ---------- Emoji mood picker ---------- */
 .moods { display: flex; gap: 20px; }
 .mood {
   display: flex;
@@ -228,13 +219,19 @@ a { color: inherit; text-decoration: none; }
 .mood.active .face { border-color: var(--primary); }
 .mood .label { font-size: 12px; color: var(--text-muted); }
 
-.face.m1 { background: #6d79c4; }
-.face.m2 { background: #9aa0d8; }
-.face.m3 { background: #a9d3ac; }
-.face.m4 { background: #f4c84a; }
-.face.m5 { background: #ef8f5f; }
+.face.m1 { background-image: url("../assets/emoji1.png"); }
+.face.m2 { background-image: url("../assets/emoji2.png"); }
+.face.m3 { background-image: url("../assets/emoji3.png"); }
+.face.m4 { background-image: url("../assets/emoji4.png"); }
+.face.m5 { background-image: url("../assets/emoji5.png"); }
 
-/* ---------- Grid helpers ---------- */
+.face {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .stack { display: flex; flex-direction: column; gap: 20px; }
@@ -242,12 +239,10 @@ a { color: inherit; text-decoration: none; }
 
 .side-layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; align-items: start; }
 
-/* ---------- Misc text ---------- */
 .muted { color: var(--text-muted); }
 .small { font-size: 13px; }
 .link-arrow { color: var(--primary); font-weight: 600; font-size: 14px; }
 
-/* ---------- Topbar & hamburger (disembunyikan di layar besar) ---------- */
 .topbar { display: none; }
 .hamburger {
   display: inline-flex;
@@ -272,7 +267,6 @@ a { color: inherit; text-decoration: none; }
 }
 .nav-overlay { display: none; }
 
-/* ---------- Responsif ---------- */
 @media (max-width: 860px) {
   .topbar {
     display: flex;
@@ -326,7 +320,6 @@ a { color: inherit; text-decoration: none; }
   .grid-2, .grid-3, .side-layout { grid-template-columns: 1fr; }
 }
 
-/* Tautan kembali (mis. dari sub-halaman menuju beranda) */
 .back-link {
   display: inline-flex;
   align-items: center;

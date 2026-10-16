@@ -1,6 +1,3 @@
-// SENJA — shared behavior
-
-// Highlight the active nav link based on the current page.
 (function markActiveNav() {
   const page = document.body.getAttribute("data-page");
   if (!page) return;
@@ -9,8 +6,6 @@
   });
 })();
 
-// Generic single-select helper: within a container, clicking one item
-// activates it and deactivates its siblings.
 function singleSelect(containerSelector, itemSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
@@ -23,7 +18,6 @@ function singleSelect(containerSelector, itemSelector) {
   });
 }
 
-// Multi-toggle helper: clicking toggles active on each item independently.
 function multiToggle(containerSelector, itemSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
@@ -34,9 +28,6 @@ function multiToggle(containerSelector, itemSelector) {
 
 window.SENJA = { singleSelect, multiToggle };
 
-// Menu responsif: pada layar kecil, sidebar jadi laci (drawer) yang
-// dibuka lewat tombol hamburger. Elemen tombol, topbar, dan overlay
-// dibuat otomatis di sini agar konsisten di semua halaman.
 (function responsiveNav() {
   const sidebar = document.querySelector(".sidebar");
   const app = document.querySelector(".app");

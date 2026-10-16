@@ -1,10 +1,5 @@
-// Beranda — pemilih mood cepat & latihan pernapasan terpandu.
-
-// Pemilih mood di beranda (hanya visual, penyimpanan ada di halaman Mood).
 SENJA.singleSelect("#homeMoods", ".mood");
 
-// ---------- Latihan napas 4-4-4 ----------
-// Siklus: Tarik 4 dtk → Tahan 4 dtk → Hembuskan 4 dtk, selama 1 menit.
 (function breathingExercise() {
   const btn = document.getElementById("breathBtn");
   const dot = document.getElementById("breathDot");
