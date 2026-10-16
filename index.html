@@ -75,7 +75,7 @@
             <button class="mood" data-mood="baik"><span class="face m4">🙂</span><span class="label">Baik</span></button>
             <button class="mood" data-mood="cerah"><span class="face m5">😄</span><span class="label">Cerah</span></button>
           </div>
-          <button class="btn btn-primary" style="margin-top:22px">Tulis catatan singkat</button>
+          <a href="mood.html" class="btn btn-primary" style="margin-top:22px">Tulis catatan singkat</a>
         </section>
 
         <!-- Promo cards -->
@@ -111,11 +111,11 @@
             <h4>Langkah Pertama: Dengarkan Napasmu</h4>
             <p class="muted small">Saat pikiran bergemuruh, kembalilah ke tubuh. Relaksasi pernapasan
               terstruktur memicu sistem saraf parasimpatis untuk meredakan ketegangan fisik.</p>
-            <div class="breath-box">
-              <div class="breath-dot"></div>
-              <span class="small muted">4 Detik Tarik • 4 Detik Tahan • 4 Detik Hembuskan</span>
+            <div class="breath-box" id="breathBox">
+              <div class="breath-dot" id="breathDot"></div>
+              <span class="small muted" id="breathLabel">4 Detik Tarik • 4 Detik Tahan • 4 Detik Hembuskan</span>
             </div>
-            <div class="info-foot between"><span>Detak napas terpandu</span><a class="link-arrow" href="#">Mulai 1 Menit</a></div>
+            <div class="info-foot between"><span>Detak napas terpandu</span><a class="link-arrow" href="#" id="breathBtn" role="button">Mulai 1 Menit</a></div>
           </article>
 
           <article class="card info-card">
@@ -133,7 +133,8 @@
     </main>
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/app.js"></script>
-  <script>SENJA.singleSelect("#homeMoods", ".mood");</script>
+  <script src="js/home.js"></script>
 </body>
 </html>

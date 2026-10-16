@@ -30,28 +30,24 @@
 
     <main class="main">
       <div class="main-inner">
+        <a href="index.html" class="back-link">← Kembali ke Beranda</a>
         <header class="page-head">
-          <div class="eyebrow" id="qStep">Skrining · Pertanyaan 3 / 10</div>
+          <div class="eyebrow" id="qStep">Skrining · Pertanyaan 1 / 10</div>
           <h1>Cek kondisimu, tanpa penilaian</h1>
-          <div class="progress"><span class="progress-bar" id="progressBar" style="width:30%"></span></div>
+          <div class="progress"><span class="progress-bar" id="progressBar" style="width:10%"></span></div>
         </header>
 
         <div class="side-layout">
-          <section class="card question-card">
-            <h2 id="questionText">Dalam 2 minggu terakhir, seberapa sering kamu merasa lelah atau kurang berenergi?</h2>
-            <div class="options" id="options">
-              <button class="option">Tidak sama sekali</button>
-              <button class="option">Beberapa hari</button>
-              <button class="option active">Lebih dari separuh hari</button>
-              <button class="option">Hampir setiap hari</button>
-            </div>
+          <section class="card question-card" id="questionCard">
+            <h2 id="questionText">Memuat pertanyaan…</h2>
+            <div class="options" id="options"></div>
             <div class="row" style="margin-top:22px">
               <button class="btn btn-muted" id="backBtn">Kembali</button>
               <button class="btn btn-primary" id="nextBtn">Lanjut</button>
             </div>
           </section>
 
-          <aside class="card result-side">
+          <aside class="card result-side" id="resultCard">
             <h2>Hasilmu nanti</h2>
             <p class="muted">Kamu akan melihat skor dan arti singkatnya:</p>
             <div class="row" style="flex-wrap:wrap; margin:14px 0 18px;">
@@ -66,6 +62,7 @@
     </main>
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script src="js/skrining.js"></script>
 </body>
