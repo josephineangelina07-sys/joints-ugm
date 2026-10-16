@@ -26,6 +26,16 @@
 
   const DAY_NAMES = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
+  // Kunci hari berdasarkan waktu LOKAL (YYYY-MM-DD). Dipakai untuk memastikan
+  // satu hari hanya punya satu catatan mood.
+  function dayKey(d) {
+    const dt = new Date(d);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, "0");
+    const day = String(dt.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
   function read(key) {
     try {
       return JSON.parse(localStorage.getItem(key)) || [];
@@ -48,9 +58,28 @@
     return read(KEY_MOODS);
   }
 
+  // Catat mood hari ini. Aturan: SATU hari = SATU catatan.
+  // Jika hari ini sudah ada catatan, catatan itu DIPERBARUI (bukan dibuat baru).
+  // Mengembalikan { entries, updated } — updated=true bila memperbarui.
   function addMood({ mood, factors = [], note = "" }) {
     const entries = getMoods();
     const now = new Date();
+    const todayKey = dayKey(now);
+
+    const existing = entries.find((e) => dayKey(e.date) === todayKey);
+
+    if (existing) {
+      // Perbarui catatan hari ini di tempatnya (urutan tetap).
+      existing.mood = mood;
+      existing.value = MOOD_SCALE[mood] ?? 3;
+      existing.factors = factors;
+      existing.note = note;
+      existing.date = now.toISOString();
+      existing.dayName = DAY_NAMES[now.getDay()];
+      write(KEY_MOODS, entries);
+      return { entries, updated: true };
+    }
+
     entries.push({
       id: now.getTime(),
       mood, // key: berat|kurang|biasa|baik|cerah
@@ -61,7 +90,13 @@
       dayName: DAY_NAMES[now.getDay()],
     });
     write(KEY_MOODS, entries);
-    return entries;
+    return { entries, updated: false };
+  }
+
+  // Ambil catatan mood untuk hari ini (atau null jika belum ada).
+  function getTodayMood() {
+    const todayKey = dayKey(new Date());
+    return getMoods().find((e) => dayKey(e.date) === todayKey) || null;
   }
 
   // Ambil N catatan terakhir (paling baru di depan).
@@ -93,6 +128,7 @@
     DAY_NAMES,
     getMoods,
     addMood,
+    getTodayMood,
     recentMoods,
     getScreenings,
     addScreening,
