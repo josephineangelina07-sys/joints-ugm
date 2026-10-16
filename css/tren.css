@@ -23,15 +23,24 @@
 }
 .line-svg { flex: 1; height: 100%; overflow: visible; }
 
+/* Baris label hari. Lebarnya dipaksa sama persis dengan area SVG
+   (digeser ke kanan sebesar lebar kolom emoji + gap) agar setiap label
+   bisa diposisikan tepat di bawah titik grafiknya. */
 .x-labels {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  height: 18px;
+  /* 56px = lebar .y-emojis (42px) + gap .line-chart (14px) */
   margin-left: 56px;
   margin-top: 10px;
   color: var(--text-muted);
   font-size: 13px;
 }
-.x-labels span { flex: 1; text-align: center; }
+.x-labels span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
 
 /* Average bars */
 .bars {
@@ -62,3 +71,23 @@
 .insight h3 { margin: 2px 0 10px; font-size: 20px; color: var(--text-strong); }
 .insight .muted { color: #7a6a5a; line-height: 1.6; }
 .insight .btn { margin-top: 18px; align-self: flex-start; }
+
+/* Empty state — ditampilkan saat belum ada data mood */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px 20px;
+}
+.empty-state .empty-ico {
+  font-size: 40px;
+  opacity: 0.8;
+}
+.empty-state .muted {
+  max-width: 320px;
+  line-height: 1.6;
+  margin: 0;
+}
+.empty-state .btn { margin-top: 6px; }

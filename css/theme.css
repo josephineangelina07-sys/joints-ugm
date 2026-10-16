@@ -81,6 +81,8 @@ a { color: inherit; text-decoration: none; }
 .brand .logo {
   width: 42px;
   height: 42px;
+  border-radius: 50%;  
+  object-fit: cover;     
 }
 .brand .brand-name {
   font-size: 12px;
@@ -245,8 +247,94 @@ a { color: inherit; text-decoration: none; }
 .small { font-size: 13px; }
 .link-arrow { color: var(--primary); font-weight: 600; font-size: 14px; }
 
+/* ---------- Topbar & hamburger (disembunyikan di layar besar) ---------- */
+.topbar { display: none; }
+.hamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.hamburger span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background: var(--primary-700);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.2s;
+}
+.nav-overlay { display: none; }
+
+/* ---------- Responsif ---------- */
 @media (max-width: 860px) {
-  .sidebar { display: none; }
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg-sidebar);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 16px;
+  }
+  .topbar-brand {
+    font-size: 13px;
+    letter-spacing: 5px;
+    font-weight: 700;
+    color: var(--accent-blue);
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    box-shadow: 0 0 40px rgba(45, 38, 86, 0.18);
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .nav-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: rgba(33, 31, 51, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+  .nav-overlay.show { opacity: 1; pointer-events: auto; }
+
+  body.nav-open { overflow: hidden; }
+
+  body.nav-open .hamburger span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  body.nav-open .hamburger span:nth-child(2) { opacity: 0; }
+  body.nav-open .hamburger span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
   .main { padding: 24px; }
   .grid-2, .grid-3, .side-layout { grid-template-columns: 1fr; }
 }
+
+/* Tautan kembali (mis. dari sub-halaman menuju beranda) */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--primary-dark); text-decoration: underline; }

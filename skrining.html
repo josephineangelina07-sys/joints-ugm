@@ -14,10 +14,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="24" cy="24" r="21" stroke="#2f3e9e" stroke-width="2.5"/>
-          <path d="M14 20c3-4 7-5 11-3M12 27c5 3 12 3 20-1M18 33c4 1 9 0 13-3" stroke="#6d57c0" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+        <img class="logo" src="assets/logo.png" alt="Logo SENJA" />
         <span class="brand-name">SENJA</span>
       </div>
       <nav class="nav">
@@ -30,28 +27,24 @@
 
     <main class="main">
       <div class="main-inner">
+        <a href="index.html" class="back-link">← Kembali ke Beranda</a>
         <header class="page-head">
-          <div class="eyebrow" id="qStep">Skrining · Pertanyaan 3 / 10</div>
+          <div class="eyebrow" id="qStep">Skrining · Pertanyaan 1 / 10</div>
           <h1>Cek kondisimu, tanpa penilaian</h1>
-          <div class="progress"><span class="progress-bar" id="progressBar" style="width:30%"></span></div>
+          <div class="progress"><span class="progress-bar" id="progressBar" style="width:10%"></span></div>
         </header>
 
         <div class="side-layout">
-          <section class="card question-card">
-            <h2 id="questionText">Dalam 2 minggu terakhir, seberapa sering kamu merasa lelah atau kurang berenergi?</h2>
-            <div class="options" id="options">
-              <button class="option">Tidak sama sekali</button>
-              <button class="option">Beberapa hari</button>
-              <button class="option active">Lebih dari separuh hari</button>
-              <button class="option">Hampir setiap hari</button>
-            </div>
+          <section class="card question-card" id="questionCard">
+            <h2 id="questionText">Memuat pertanyaan…</h2>
+            <div class="options" id="options"></div>
             <div class="row" style="margin-top:22px">
               <button class="btn btn-muted" id="backBtn">Kembali</button>
               <button class="btn btn-primary" id="nextBtn">Lanjut</button>
             </div>
           </section>
 
-          <aside class="card result-side">
+          <aside class="card result-side" id="resultCard">
             <h2>Hasilmu nanti</h2>
             <p class="muted">Kamu akan melihat skor dan arti singkatnya:</p>
             <div class="row" style="flex-wrap:wrap; margin:14px 0 18px;">
@@ -66,6 +59,7 @@
     </main>
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script src="js/skrining.js"></script>
 </body>

@@ -14,10 +14,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="24" cy="24" r="21" stroke="#2f3e9e" stroke-width="2.5"/>
-          <path d="M14 20c3-4 7-5 11-3M12 27c5 3 12 3 20-1M18 33c4 1 9 0 13-3" stroke="#6d57c0" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+        <img class="logo" src="assets/logo.png" alt="Logo SENJA" />
         <span class="brand-name">SENJA</span>
       </div>
       <nav class="nav">
@@ -35,7 +32,7 @@
           <p>Tampilan data 14 hari terakhir.</p>
         </header>
 
-        <section class="card line-card">
+         <section class="card line-card" id="lineCard">
           <h2>Mood 14 hari terakhir</h2>
           <div class="line-chart">
             <div class="y-emojis">
@@ -51,7 +48,7 @@
         </section>
 
         <div class="grid-2 bottom">
-          <section class="card">
+          <section class="card" id="barCard">
             <h2>Rata-rata per hari</h2>
             <div class="bars" id="bars"></div>
             <div class="bar-labels">
@@ -59,17 +56,17 @@
             </div>
           </section>
 
-          <section class="card insight">
+          <section class="card insight" id="insightCard">
             <div class="eyebrow">Pola ditemukan</div>
             <h3>Moodmu turun tiap awal minggu</h3>
             <p class="muted">Coba sisihkan waktu istirahat di hari Minggu malam dan Senin pagi.</p>
-            <button class="btn btn-primary">Lihat saran</button>
           </section>
         </div>
       </div>
     </main>
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/app.js"></script>
   <script src="js/tren.js"></script>
 </body>
