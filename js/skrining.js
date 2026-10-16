@@ -106,11 +106,23 @@ function finish() {
         Ini <strong>bukan diagnosis</strong>, hanya langkah awal mengenali dirimu.
         Hasil tersimpan privat di perangkatmu.
       </p>
-      <div class="row" style="margin-top:22px">
+      <div class="row" style="margin-top:22px; flex-wrap:wrap">
         <button class="btn btn-primary" id="retakeBtn">Ulangi skrining</button>
         <a class="btn btn-ghost" href="mood.html">Catat mood</a>
+        <a class="btn btn-muted" href="index.html">Kembali ke Beranda</a>
       </div>
     </div>`;
+
+  // Perbarui panel samping jadi ringkasan singkat.
+  if (resultCard) {
+    resultCard.innerHTML = `
+      <h2>Ringkasan</h2>
+      <p class="muted">Skor kamu: <strong>${score} / ${maxScore}</strong></p>
+      <div class="row" style="flex-wrap:wrap; margin:14px 0 18px;">
+        <span class="chip-static">${level}</span>
+      </div>
+      <p class="muted">Jawabanmu privat dan tersimpan hanya di perangkatmu.</p>`;
+  }
 
   document.getElementById("retakeBtn").addEventListener("click", () => {
     location.reload();
