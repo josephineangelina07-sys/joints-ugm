@@ -23,15 +23,23 @@
 }
 .line-svg { flex: 1; height: 100%; overflow: visible; }
 
+/* Baris label hari. Lebarnya dipaksa sama persis dengan area SVG
+   (digeser ke kanan sebesar lebar kolom emoji + gap) agar setiap label
+   bisa diposisikan tepat di bawah titik grafiknya. */
 .x-labels {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  height: 18px;
+  /* 56px = lebar .y-emojis (42px) + gap .line-chart (14px) */
   margin-left: 56px;
   margin-top: 10px;
   color: var(--text-muted);
   font-size: 13px;
 }
-.x-labels span { flex: 1; text-align: center; }
+.x-labels span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
 
 /* Average bars */
 .bars {

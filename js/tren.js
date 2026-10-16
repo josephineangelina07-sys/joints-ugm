@@ -14,13 +14,18 @@ const data = last.map((m) => m.value);
 const dayLabels = last.map((m) => DAYS_SHORT[new Date(m.date).getDay()]);
 
 const W = 760, H = 300;
-const padX = 20, padY = 24;
+// padX = 0 agar titik pertama tepat di tepi kiri dan titik terakhir
+// tepat di tepi kanan area grafik, sehingga sejajar dengan label hari.
+const padX = 0, padY = 24;
 const innerW = W - padX * 2;
 const innerH = H - padY * 2;
 
-function x(i) {
-  return data.length === 1 ? W / 2 : padX + (innerW * i) / (data.length - 1);
+// Posisi horizontal titik ke-i dalam bentuk PERSEN (0..100) dari lebar grafik.
+// Dipakai bersama untuk titik SVG maupun label hari agar keduanya sejajar.
+function xPct(i) {
+  return data.length <= 1 ? 50 : (100 * i) / (data.length - 1);
 }
+function x(i) { return (xPct(i) / 100) * W; }
 function y(v) { return padY + innerH * (1 - (v - 1) / 4); }
 
 // Tampilkan pesan "belum ada data" di dalam sebuah kartu.
@@ -79,7 +84,12 @@ function renderLineChart() {
 function renderXLabels() {
   const el = document.getElementById("xLabels");
   if (!el) return;
-  el.innerHTML = hasData ? dayLabels.map((d) => `<span>${d}</span>`).join("") : "";
+  if (!hasData) { el.innerHTML = ""; return; }
+  // Setiap label ditempatkan tepat di bawah titiknya (persen yang sama),
+  // lalu digeser -50% agar teksnya terpusat di titik itu.
+  el.innerHTML = dayLabels
+    .map((d, i) => `<span style="left:${xPct(i).toFixed(2)}%">${d}</span>`)
+    .join("");
 }
 
 // Rata-rata mood per hari dalam seminggu (Sen..Min).
