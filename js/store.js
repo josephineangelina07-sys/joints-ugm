@@ -54,8 +54,32 @@
   }
 
   // ---------- Mood ----------
+  // Gabungkan catatan duplikat pada hari yang sama: ambil yang TERAKHIR
+  // (paling baru diisi/diupdate). Mengembalikan daftar 1 catatan per hari,
+  // terurut berdasarkan tanggal (lama -> baru).
+  function dedupeByDay(entries) {
+    const byDay = new Map();
+    entries.forEach((e) => {
+      const k = dayKey(e.date);
+      const prev = byDay.get(k);
+      // Simpan yang paling baru untuk hari itu.
+      if (!prev || new Date(e.date) >= new Date(prev.date)) {
+        byDay.set(k, e);
+      }
+    });
+    return [...byDay.values()].sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
+  // Baca mood, sekaligus rapikan data (hanya 1 catatan per hari).
+  // Jika ternyata ada duplikat lama, data yang sudah bersih ditulis ulang
+  // agar grafik & daftar selalu konsisten.
   function getMoods() {
-    return read(KEY_MOODS);
+    const raw = read(KEY_MOODS);
+    const clean = dedupeByDay(raw);
+    if (clean.length !== raw.length) {
+      write(KEY_MOODS, clean); // self-healing: bersihkan duplikat lama
+    }
+    return clean;
   }
 
   // Catat mood hari ini. Aturan: SATU hari = SATU catatan.
