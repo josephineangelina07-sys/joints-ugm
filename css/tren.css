@@ -62,3 +62,23 @@
 .insight h3 { margin: 2px 0 10px; font-size: 20px; color: var(--text-strong); }
 .insight .muted { color: #7a6a5a; line-height: 1.6; }
 .insight .btn { margin-top: 18px; align-self: flex-start; }
+
+/* Empty state — ditampilkan saat belum ada data mood */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px 20px;
+}
+.empty-state .empty-ico {
+  font-size: 40px;
+  opacity: 0.8;
+}
+.empty-state .muted {
+  max-width: 320px;
+  line-height: 1.6;
+  margin: 0;
+}
+.empty-state .btn { margin-top: 6px; }

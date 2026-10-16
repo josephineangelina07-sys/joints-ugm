@@ -33,3 +33,56 @@ function multiToggle(containerSelector, itemSelector) {
 }
 
 window.SENJA = { singleSelect, multiToggle };
+
+// Menu responsif: pada layar kecil, sidebar jadi laci (drawer) yang
+// dibuka lewat tombol hamburger. Elemen tombol, topbar, dan overlay
+// dibuat otomatis di sini agar konsisten di semua halaman.
+(function responsiveNav() {
+  const sidebar = document.querySelector(".sidebar");
+  const app = document.querySelector(".app");
+  if (!sidebar || !app) return;
+
+  // Topbar khusus layar kecil (berisi tombol hamburger + nama brand).
+  const topbar = document.createElement("div");
+  topbar.className = "topbar";
+  topbar.innerHTML = `
+    <button class="hamburger" id="menuToggle" aria-label="Buka menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="topbar-brand">SENJA</span>`;
+  app.parentNode.insertBefore(topbar, app);
+
+  // Lapisan gelap di belakang laci saat menu terbuka.
+  const overlay = document.createElement("div");
+  overlay.className = "nav-overlay";
+  document.body.appendChild(overlay);
+
+  const toggleBtn = topbar.querySelector("#menuToggle");
+
+  function openMenu() {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+    document.body.classList.add("nav-open");
+    toggleBtn.setAttribute("aria-expanded", "true");
+    toggleBtn.setAttribute("aria-label", "Tutup menu");
+  }
+  function closeMenu() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+    document.body.classList.remove("nav-open");
+    toggleBtn.setAttribute("aria-expanded", "false");
+    toggleBtn.setAttribute("aria-label", "Buka menu");
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    if (sidebar.classList.contains("open")) closeMenu();
+    else openMenu();
+  });
+  overlay.addEventListener("click", closeMenu);
+  // Tutup menu setelah memilih salah satu tautan navigasi.
+  sidebar.querySelectorAll(".nav a").forEach((a) => a.addEventListener("click", closeMenu));
+  // Tutup dengan tombol Escape.
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+})();

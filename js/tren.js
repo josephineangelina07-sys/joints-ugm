@@ -1,58 +1,55 @@
 // Tren — menggambar grafik garis mood 14 hari & batang rata-rata per hari.
-// Membaca data mood asli dari penyimpanan lokal; jika kosong, memakai
-// data contoh agar halaman tetap informatif.
+// Hanya menampilkan grafik jika pengguna SUDAH punya catatan mood.
+// Jika belum ada data, tampilkan "empty state" (ajakan mengisi mood).
 
-// Data contoh (skala mood 1..5) saat pengguna belum punya catatan.
-const SAMPLE_14 = [3, 3, 2, 1, 4, 4, 3, 2, 2, 2, 3, 4, 2, 1];
 const DAYS_SHORT = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+const DAY_FULL = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
-// Ambil nilai mood 14 hari terakhir dari store (jika ada).
-function getMoodSeries() {
-  const moods = window.SENJA_STORE ? SENJA_STORE.getMoods() : [];
-  if (!moods.length) {
-    return { values: SAMPLE_14.slice(), days: sampleDayLabels(), isSample: true };
-  }
-  const last = moods.slice(-14);
-  return {
-    values: last.map((m) => m.value),
-    days: last.map((m) => DAYS_SHORT[new Date(m.date).getDay()]),
-    isSample: false,
-  };
-}
+const moods = window.SENJA_STORE ? SENJA_STORE.getMoods() : [];
+const hasData = moods.length > 0;
 
-// Label hari untuk 14 titik data contoh, berakhir di hari ini.
-function sampleDayLabels() {
-  const labels = [];
-  const today = new Date();
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    labels.push(DAYS_SHORT[d.getDay()]);
-  }
-  return labels;
-}
-
-const series = getMoodSeries();
-const data = series.values;
+// Data 14 hari terakhir dari catatan asli.
+const last = moods.slice(-14);
+const data = last.map((m) => m.value);
+const dayLabels = last.map((m) => DAYS_SHORT[new Date(m.date).getDay()]);
 
 const W = 760, H = 300;
 const padX = 20, padY = 24;
 const innerW = W - padX * 2;
 const innerH = H - padY * 2;
 
-// Petakan nilai mood (1..5) dan indeks ke koordinat svg.
 function x(i) {
   return data.length === 1 ? W / 2 : padX + (innerW * i) / (data.length - 1);
 }
 function y(v) { return padY + innerH * (1 - (v - 1) / 4); }
 
+// Tampilkan pesan "belum ada data" di dalam sebuah kartu.
+function emptyMessage(text) {
+  return `<div class="empty-state">
+      <span class="empty-ico">🌙</span>
+      <p class="muted">${text}</p>
+      <a href="mood.html" class="btn btn-primary">Catat mood pertamamu</a>
+    </div>`;
+}
+
 function renderLineChart() {
+  const card = document.getElementById("lineCard");
   const svg = document.getElementById("lineChart");
   if (!svg) return;
+
+  if (!hasData) {
+    // Ganti seluruh isi kartu grafik dengan empty state.
+    if (card) {
+      card.innerHTML =
+        "<h2>Mood 14 hari terakhir</h2>" +
+        emptyMessage("Belum ada data mood. Grafik akan muncul setelah kamu mulai mencatat suasana hatimu.");
+    }
+    return;
+  }
+
   svg.innerHTML = "";
   const ns = "http://www.w3.org/2000/svg";
 
-  // Garis
   if (data.length > 1) {
     let d = "";
     data.forEach((v, i) => { d += (i === 0 ? "M" : "L") + x(i).toFixed(1) + " " + y(v).toFixed(1) + " "; });
@@ -66,7 +63,6 @@ function renderLineChart() {
     svg.appendChild(path);
   }
 
-  // Titik — puncak (nilai >= 4) diberi warna amber.
   data.forEach((v, i) => {
     const c = document.createElementNS(ns, "circle");
     c.setAttribute("cx", x(i));
@@ -83,31 +79,37 @@ function renderLineChart() {
 function renderXLabels() {
   const el = document.getElementById("xLabels");
   if (!el) return;
-  el.innerHTML = series.days.map((d) => `<span>${d}</span>`).join("");
+  el.innerHTML = hasData ? dayLabels.map((d) => `<span>${d}</span>`).join("") : "";
 }
 
 // Rata-rata mood per hari dalam seminggu (Sen..Min).
+// Mengembalikan array 7 nilai (0 jika belum ada data hari itu).
+function weekdayAverages() {
+  const buckets = Array.from({ length: 7 }, () => []);
+  moods.forEach((m) => {
+    const jsDay = new Date(m.date).getDay(); // 0=Min..6=Sab
+    const idx = jsDay === 0 ? 6 : jsDay - 1; // 0=Sen..6=Min
+    buckets[idx].push(m.value);
+  });
+  return buckets.map((b) => (b.length ? b.reduce((s, v) => s + v, 0) / b.length : 0));
+}
+
 function renderBars() {
   const el = document.getElementById("bars");
+  const card = document.getElementById("barCard");
   if (!el) return;
 
-  let avg;
-  if (series.isSample) {
-    avg = [1.5, 3, 3.2, 3.5, 4, 4.3, 4]; // contoh
-  } else {
-    // Hitung dari data asli, urut Senin..Minggu.
-    const moods = SENJA_STORE.getMoods();
-    const buckets = Array.from({ length: 7 }, () => []);
-    moods.forEach((m) => {
-      const jsDay = new Date(m.date).getDay(); // 0=Min..6=Sab
-      const idx = jsDay === 0 ? 6 : jsDay - 1; // 0=Sen..6=Min
-      buckets[idx].push(m.value);
-    });
-    avg = buckets.map((b) => (b.length ? b.reduce((s, v) => s + v, 0) / b.length : 0));
+  if (!hasData) {
+    if (card) {
+      card.innerHTML =
+        "<h2>Rata-rata per hari</h2>" +
+        emptyMessage("Rata-rata harianmu akan tampil di sini begitu ada catatan.");
+    }
+    return;
   }
 
+  const avg = weekdayAverages();
   const max = 5;
-  // Puncak = hari dengan rata-rata tertinggi.
   const peakIdx = avg.indexOf(Math.max(...avg));
   el.innerHTML = avg
     .map((v, i) => {
@@ -118,6 +120,48 @@ function renderBars() {
     .join("");
 }
 
+// Insight "pola ditemukan" — dihitung dari data asli.
+function renderInsight() {
+  const card = document.getElementById("insightCard");
+  if (!card) return;
+
+  if (!hasData) {
+    card.innerHTML = `
+      <div class="eyebrow">Belum ada pola</div>
+      <h3>Pola akan muncul seiring catatanmu</h3>
+      <p class="muted">Catat suasana hatimu beberapa hari, dan SENJA akan membantu
+        mengenali kapan kamu cenderung merasa lelah atau lebih baik.</p>
+      <a href="mood.html" class="btn btn-primary">Mulai mencatat</a>`;
+    return;
+  }
+
+  // Butuh beberapa catatan agar pola bermakna.
+  if (moods.length < 3) {
+    card.innerHTML = `
+      <div class="eyebrow">Mengumpulkan data</div>
+      <h3>Sebentar lagi polamu terbaca</h3>
+      <p class="muted">Kamu baru punya ${moods.length} catatan. Tambah beberapa lagi
+        supaya SENJA bisa mengenali pola suasana hatimu.</p>
+      <a href="mood.html" class="btn btn-primary">Catat lagi</a>`;
+    return;
+  }
+
+  // Temukan hari dengan rata-rata terendah (mood paling berat).
+  const avg = weekdayAverages();
+  let lowIdx = -1, lowVal = Infinity;
+  avg.forEach((v, i) => {
+    if (v > 0 && v < lowVal) { lowVal = v; lowIdx = i; }
+  });
+  const lowDayName = DAY_FULL[(lowIdx + 1) % 7]; // idx 0=Sen -> getDay 1
+
+  card.innerHTML = `
+    <div class="eyebrow">Pola ditemukan</div>
+    <h3>Moodmu cenderung paling berat di hari ${lowDayName}</h3>
+    <p class="muted">Coba sisihkan waktu istirahat ekstra menjelang hari ${lowDayName},
+      dan perhatikan apa yang biasanya membuatmu lelah di hari itu.</p>`;
+}
+
 renderLineChart();
 renderXLabels();
 renderBars();
+renderInsight();
